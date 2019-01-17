@@ -1,0 +1,184 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+import numpy as np
+from matplotlib import pyplot as plt
+
+def euclidean_distance(a,b):
+    diff = a - b
+    return np.sqrt(np.dot(diff, diff))
+
+def load_data(csv_filename):
+    """ 
+    Returns a numpy ndarray in which each row repersents
+    a wine and each column represents a measurement. There should be 11
+    columns (the "quality" column cannot be used for classificaiton).
+    """
+    """
+    file=open(csv_filename, 'r')
+    temp=[]
+    
+    rowCount=0
+    file.readline()
+    
+    for line in file:
+        row=line.split(";")[0:11]
+        temp.append(row)
+        rowCount+=1
+        
+    return np.array(temp)
+    
+    """
+
+    return(np.genfromtxt(csv_filename, delimiter=';', skip_header=1)[:,0:11])
+    
+   
+    
+def split_data(dataset, ratio = 0.9):
+    
+    trainingCount=(int(len(dataset)*ratio))
+    return((dataset[0:trainingCount],dataset[trainingCount::]))
+    
+    """
+    Return a (train, test) tuple of numpy ndarrays. 
+    The ratio parameter determines how much of the data should be used for 
+    training. For example, 0.9 means that the training portion should contain
+    90% of the data. You do not have to randomize the rows. Make sure that 
+    there is no overlap. 
+    """
+    
+def compute_centroid(data):
+    """
+    Returns a 1D array (a vector), representing the centroid of the data
+    set. 
+    """
+    return sum(data)/len(data)
+
+    
+def experiment(ww_train, rw_train, ww_test, rw_test):
+    """
+    Train a model on the training data by creating a centroid for each class.
+    Then test the model on the test data. Prints the number of total 
+    predictions and correct predictions. Returns the accuracy. 
+    
+    IS THIS RIGHT?? IS IT TRAINING DATA?
+    """
+    rw_centroid=compute_centroid(rw_train) 
+    ww_centroid=compute_centroid(ww_train)
+    
+    predictions=0
+    correct_predictions=0
+    
+    for sample in ww_test:
+        if(euclidean_distance(ww_centroid,sample)<euclidean_distance(rw_centroid,sample)): ##it's a white wine sample
+            correct_predictions+=1
+        predictions+=1
+    
+    for sample in rw_test:
+        if(euclidean_distance(rw_centroid,sample)<euclidean_distance(ww_centroid,sample)): ##it's a white wine sample
+            correct_predictions+=1
+        predictions+=1
+        
+    print("Total predictions: "+str(predictions))
+    print("Correct predictions: "+str(correct_predictions ))
+    
+    return (correct_predictions/predictions)
+"""  
+When training machine learning models, the training algorithm needs to be presented with enough data to pick up 
+differences between classes. Training on more data typically leads to a better model. 
+
+Write the function learning_curve(ww_training, rw_training, ww_test, rw_test) which performs the following steps:
+
+Shuffle the two training sets. 
+Run n training/testing experiments (by using the experiment function from part 2), where n, 
+is the size of the smaller one of the training sets (with this specific data set, the two classes contain 
+the same amount of data items). 
+
+For each experiment, increase the size of each training data set by one. In the 
+first call to experiment, you would only use the first data item from each training data set. In the second call 
+you use the first two data items in each training set etc. Always use the full testing set. 
+Collect the accuracies returned by each experiment in a list.
+Use matplotlib to plot a graph in which the x-axis is the number of training items used and the y-axis is the accuracy.
+"""
+
+def learning_curve(ww_training, rw_training, ww_test, rw_test):
+    """
+    Perform a series of experiments to compute and plot a learning curve.
+    """
+    np.random.shuffle(ww_training)
+    np.random.shuffle(rw_training)
+    
+    accuracies=[]
+    
+    for i in range (0,(min(len(ww_training), len(rw_training)))):
+       accuracies.append(experiment(ww_training[:i+1], rw_training[:i+1], ww_test, rw_test))
+      
+    plt.xlabel("Number of training items used")
+    plt.ylabel("accuracy")
+    plt.plot(list(range(1,len(accuracies)+1)),accuracies)
+     
+def cross_validation(ww_data, rw_data, k): 
+    
+    ww_data_per_partition=int(len(ww_data)/k)
+    rw_data_per_partition=int(len(rw_data)/k)
+    
+    average_sum=0
+    ##average_sum=experiment(ww_data[ww_data_per_partition:],rw_data[rw_data_per_partition], ww_data[0:ww_data_per_partition], rw_data[0:rw_data_per_partition])
+    
+    for i in range(0,k): 
+        ww_start=i*ww_data_per_partition
+        ww_end=ww_start+ww_data_per_partition
+        ww_test=ww_data[ww_start:ww_end]
+        ##ww_train=ww_data[:ww_start].reshape(len(ww_data),len(ww_data[0]))+ww_data[ww_end:].reshape(len(ww_data),len(ww_data[0]))
+        ##ww_train=ww_data[:ww_start].concatenate(ww_data[ww_end:])   
+        ww_train=ww_data[list(range(0,ww_start))+list(range(ww_end,len(ww_data)))]
+        
+        rw_start=i*rw_data_per_partition
+        rw_end=rw_start+rw_data_per_partition
+        rw_test=rw_data[rw_start:rw_end]
+        ##rw_train=rw_data[:rw_start].concatenate(rw_data[rw_end:])
+        ##rw_train=rw_data[:ww_start].reshape(len(rw_data),len(rw_data[0]))+rw_data[ww_end:].reshape(len(rw_data),len(rw_data[0]))
+        rw_train=rw_data[list(range(0,rw_start))+list(range(rw_end,len(rw_data)))]
+        
+        average_sum+=experiment(ww_train, rw_train, ww_test, rw_test)
+    
+    return(average_sum/k)
+    """
+    Perform k-fold crossvalidation on the data and print the accuracy for each
+    fold. 
+    ##Will k will never be greater than number of data entries. Remainder should be added to training data
+    nested [[d],[d]]
+
+
+One common solution to this problem is to split the available data into k-partitions of equal size.
+ We perform k training/testing repetitions. In each repetition we test on one of the k partitions 
+ after training on the remaining k-1 partitions. In this way, each of the partitions will be tested on once.
+ We can then average the accuracy we got for each of the k repetitions. This is called k-fold cross validation.
+
+Implement the function cross_validation(ww_data, rw_data, k), that performs k-fold cross validation and returns 
+the average accuracy. Use the experiment from step 2 to run each training/testing repetition. 
+
+
+    """
+
+
+    
+if __name__ == "__main__":
+    
+    ww_data = load_data('whitewine.csv')
+    rw_data = load_data('redwine.csv')
+
+    # Uncomment the following lines for step 2: 
+    ww_train, ww_test = split_data(ww_data, 0.9)
+    rw_train, rw_test = split_data(rw_data, 0.9)
+    experiment(ww_train, rw_train, ww_test, rw_test)
+    
+    #Uncomment the following lines for step 3
+    ww_train, ww_test = split_data(ww_data, 0.9)
+    rw_train, rw_test = split_data(rw_data, 0.9)
+    learning_curve(ww_train, rw_train, ww_test, rw_test)
+    
+    # Uncomment the following lines for step 4:
+    k = 5
+    acc = cross_validation(ww_data, rw_data,k)
+    print("{}-fold cross-validation accuracy: {}".format(k,acc))
+    
