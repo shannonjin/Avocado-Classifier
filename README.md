@@ -20,4 +20,7 @@ The dataset used for this project was downloaded from the Hass Avocado Board's w
 
 
 ## To do's
-
+- [ ] Create a user interface for accepting user input of an avocado price
+- [ ] Apply classifier to user input
+- [ ] Analyze results
+- [ ] Also consider precision and recall, write function/script to analyze results
