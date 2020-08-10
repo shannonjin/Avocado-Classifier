@@ -4,4 +4,4 @@ Avocadoes are a delicious but sometimes pricer grocery item! It's important to g
 Given the price of an avocado, my python script will guess the region in which the avocado is being retailed in. Find out if the avocado you're about to buy is being
 priced fairly for your geographic area!
 
-The dataset used for this project was downloaded from the Hass Avocado Board's website, and contains avocado prices from 2015-2018 from across the nation. Thank you to Justin Kiggins for making this dataset available on kaggle [a link](https://www.kaggle.com/neuromusic/avocado-prices)
+The dataset used for this project was downloaded from the Hass Avocado Board's website, and contains avocado prices from 2015-2018 from across the nation. Thank you to Justin Kiggins for making this dataset available on [kaggle](https://www.kaggle.com/neuromusic/avocado-prices)
