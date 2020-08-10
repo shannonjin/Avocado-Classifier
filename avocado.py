@@ -14,9 +14,13 @@ def load_data(csv_filename):
     
     rowCount=0
     file.readline()
-    
+    regions=[]
     for line in file:
-        row=line.split(";")[0:11]
+        row=line.split(",")
+        del row[3:13]
+        del row[0:1]
+        if row[1] not in regions:
+                
         temp.append(row)
         rowCount+=1
         
@@ -25,7 +29,7 @@ def load_data(csv_filename):
     """
 
     return(np.genfromtxt(csv_filename, delimiter=';', skip_header=1)[:,0:11])
-    
+    """
    
     
 def split_data(dataset, ratio = 0.9):
@@ -36,14 +40,12 @@ def split_data(dataset, ratio = 0.9):
     """
     Return a (train, test) tuple of numpy ndarrays. 
     The ratio parameter determines how much of the data should be used for 
-    training. For example, 0.9 means that the training portion should contain
-    90% of the data. You do not have to randomize the rows. Make sure that 
-    there is no overlap. 
+    training.  
     """
     
 def compute_centroid(data):
     """
-    Returns a 1D array (a vector), representing the centroid of the data
+    Returns 1D array (a vector), representing the centroid of the data
     set. 
     """
     return sum(data)/len(data)

@@ -8,12 +8,7 @@ def euclidean_distance(a,b):
     return np.sqrt(np.dot(diff, diff))
 
 def load_data(csv_filename):
-    """ 
-    Returns a numpy ndarray in which each row repersents
-    a wine and each column represents a measurement. There should be 11
-    columns (the "quality" column cannot be used for classificaiton).
-    """
-    """
+    
     file=open(csv_filename, 'r')
     temp=[]
     
