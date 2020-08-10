@@ -126,7 +126,7 @@ def learning_curve(train, test):
     Perform a series of experiments to compute and plot a learning curve.
     """
 
-    minimum = len(train[train.keys[0]])
+    minimum = len(train['Albany'])
 
     for region in train:
         np.random.shuffle(train[region])
