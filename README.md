@@ -14,7 +14,9 @@ The dataset used for this project was downloaded from the Hass Avocado Board's w
 4. Build a learning curve
 5. Perform cross validation
 
-Example of output during running: ![alt text](https://github.com/shannonjin/Avocado-Classifier/blob/master/Screen%20Shot%202020-08-10%20at%201.02.09%20AM.png)
+**Example of output during running:**
+
+![alt text](https://github.com/shannonjin/Avocado-Classifier/blob/master/Screen%20Shot%202020-08-10%20at%201.02.09%20AM.png)
 
 
 ## To do's
