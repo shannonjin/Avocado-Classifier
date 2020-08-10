@@ -5,3 +5,14 @@ Given the price of an avocado, my python script will guess the region in which t
 priced fairly for your geographic area!
 
 The dataset used for this project was downloaded from the Hass Avocado Board's website, and contains avocado prices from 2015-2018 from across the nation. Thank you to Justin Kiggins for making this dataset available on [kaggle](https://www.kaggle.com/neuromusic/avocado-prices)
+
+# Components
+
+1. Cleaning the data. While the Hass Avocado board's dataset contains sales info as well, we're only interested in the regions and the price of avocadoes
+2. Compute centroid of avocado prices for each region
+3. Train on the data and test on the data (split the Hass Avocado dataset, here we prefer to split 90% for training 10% for test)
+4. Build a learning curve
+5. Perform cross validation
+
+# To do's
+
